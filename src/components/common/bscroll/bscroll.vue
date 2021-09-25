@@ -32,14 +32,20 @@
           pullUpLoad: this.pullUpLoad,
           click: true,
           startY: true,
-          observeImage:true
+          observeImage:true,
+          disableMouse: true
         });
-        this.scroll.on('scroll', (position) => {
-          this.$emit('showBackTop', position);
-        });
-        this.scroll.on('pullingUp', () => {
-          this.$emit('pullingUp');
-        })
+        if(this.probeType == 2 || this.probeType == 3) {
+          this.scroll.on('scroll', (position) => {
+            this.$emit('showBackTop', position);
+          });
+        }
+
+        if(this.pullUpLoad) {
+          this.scroll.on('pullingUp', () => {
+            this.$emit('pullingUp');
+          })
+        }
       },
       methods: {
         scrollTop(x, y, time=300) {
@@ -50,6 +56,9 @@
         },
         getScrollY() {
          return this.scroll ? this.scroll.scrollY : 0;
+        },
+        refresh() {
+          this.scroll && this.scroll.refresh();
         }
       }
     }
